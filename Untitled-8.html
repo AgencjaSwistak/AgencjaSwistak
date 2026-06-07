@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>System Autoryzacji</title>
+
+<style>
+body {
+    background: black;
+    color: #00ff00;
+    font-family: "Courier New", monospace;
+    margin: 0;
+}
+
+/* LOGO */
+.logo {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    width: 140px;
+    filter: drop-shadow(0 0 10px #00ff00);
+}
+
+/* MENU */
+.menu-btn {
+    position: fixed;
+    top: 160px;
+    left: 20px;
+    font-size: 30px;
+    cursor: pointer;
+    display: none;
+}
+
+.menu {
+    position: fixed;
+    top: 170px;
+    left: 20px;
+    border: 1px solid #00ff00;
+    padding: 10px;
+    display: none;
+    background: black;
+}
+
+.menu div {
+    margin: 5px 0;
+    cursor: pointer;
+}
+
+/* CONTAINER */
+.container {
+    width: 800px;
+    margin: auto;
+    border: 2px solid #00ff00;
+    padding: 20px;
+    box-shadow: 0 0 20px #00ff00;
+    margin-top: 120px;
+}
+
+.hidden { display: none; }
+
+input, button {
+    background: black;
+    color: #00ff00;
+    border: 1px solid #00ff00;
+    padding: 8px;
+    width: 95%;
+    margin: 5px 0;
+}
+
+.center {
+    text-align: center;
+    font-size: 20px;
+}
+
+/* PROFIL */
+.profile {
+    text-align: center;
+}
+.profile img {
+    width: 200px;
+    filter: drop-shadow(0 0 10px #00ff00);
+}
+</style>
+</head>
+
+<body>
+
+<img src="LOGO.jpg" class="logo">
+
+<div class="menu-btn" id="menuBtn" onclick="toggleMenu()">☰</div>
+
+<div id="menu" class="menu">
+    <div onclick="choose(1)">Autoryzacja 1</div>
+    <div onclick="choose(2)">Autoryzacja 2</div>
+    <div onclick="choose(3)">Autoryzacja 3</div>
+    <div onclick="choose(4)">Autoryzacja 4</div>
+    <div onclick="choose(5)">Autoryzacja 5</div>
+    <div onclick="openProfile()">Profil</div>
+</div>
+
+<div class="container">
+
+<!-- LOGIN -->
+<div id="loginBox">
+    <p>> Login:</p>
+    <input id="login">
+
+    <p>> Hasło:</p>
+    <input type="password" id="password">
+
+    <button onclick="login()">Zaloguj</button>
+    <p id="error"></p>
+</div>
+
+<!-- BOOT -->
+<div id="boot" class="center hidden"></div>
+
+<!-- QUIZ -->
+<div id="quizBox" class="hidden">
+
+<p>1. Nasza szczęśliwa liczba</p>
+<input id="q1">
+
+<p>2. Miejsce w którym zostałaś Babką</p>
+<input id="q2">
+
+<p>3. Co nam zrobił Wojtuś?</p>
+<input id="q3">
+
+<p>4. Miejscowość pierwszej randki</p>
+<input id="q4">
+
+<p>5. Pierwsza nazwa którą mi nadałaś</p>
+<input id="q5">
+
+<p>6. Pielgrzymka Tarnowska 2024</p>
+<input id="q6">
+
+<p>7. Moje ulubione danie</p>
+<input id="q7">
+
+<p>8. Pierwsze miasto za granicą</p>
+<input id="q8">
+
+<button onclick="checkQuiz()">Sprawdź</button>
+
+</div>
+
+<!-- CYFRA 1 -->
+<div id="win1" class="hidden center">
+    <h1>Twoja cyfra to 1</h1>
+</div>
+
+<!-- ZADANIE 2 -->
+<div id="task2" class="hidden center">
+
+<h2>> WYKONAJ ZADANIE</h2>
+
+<img src="Zadanie.PNG"
+style="width:100%; max-width:700px; border:1px solid #00ff00; box-shadow:0 0 10px #00ff00;">
+
+<p>> Wpisz odpowiedź:</p>
+<input id="answer">
+<button onclick="checkTask()">Sprawdź</button>
+
+</div>
+
+<!-- CYFRA 2 -->
+<div id="win2" class="hidden center">
+    <h1>Twoja cyfra to 2</h1>
+</div>
+
+<!-- BRAK -->
+<div id="blocked" class="hidden center">
+    <h1>BRAK DOSTĘPU</h1>
+</div>
+
+<!-- PROFIL -->
+<div id="profile" class="hidden profile center">
+    <img src="Chomik.JPG.jpg">
+    <h3>Użytkownik:</h3>
+    <p id="user"></p>
+</div>
+
+</div>
+
+<script>
+const LOGIN = "BabkaAgent1";
+const PASSWORD = "Świstako2408chomik";
+
+let username = "";
+
+/* LOGIN */
+function login() {
+    const l = document.getElementById("login").value.trim();
+    const p = document.getElementById("password").value.trim();
+
+    if (l === LOGIN && p === PASSWORD) {
+        username = l;
+
+        document.getElementById("loginBox").classList.add("hidden");
+
+        document.getElementById("menuBtn").style.display = "block";
+
+        document.getElementById("boot").classList.remove("hidden");
+
+        document.getElementById("boot").innerText =
+`Microsoft Windows [Version 10.0]
+(c) Microsoft Corporation.
+
+C:\\Users\\Admin> Uruchamianie systemu...
+C:\\Users\\Admin> Dostęp przyznany.`;
+
+    } else {
+        document.getElementById("error").innerText = "BŁĘDNY LOGIN LUB HASŁO";
+    }
+}
+
+/* MENU */
+function toggleMenu() {
+    const m = document.getElementById("menu");
+    m.style.display = m.style.display === "block" ? "none" : "block";
+}
+
+function hideAll() {
+    quizBox.classList.add("hidden");
+    task2.classList.add("hidden");
+    win1.classList.add("hidden");
+    win2.classList.add("hidden");
+    blocked.classList.add("hidden");
+    profile.classList.add("hidden");
+    boot.classList.add("hidden"); // 🔥 znika po wejściu do menu
+}
+
+/* WYBÓR */
+function choose(n) {
+    toggleMenu();
+    hideAll();
+
+    if (n === 1) quizBox.classList.remove("hidden");
+    else if (n === 2) task2.classList.remove("hidden");
+    else blocked.classList.remove("hidden");
+}
+
+/* QUIZ */
+function checkQuiz() {
+    const a = {
+        q1:"24",
+        q2:"biedronka w żarnowcu",
+        q3:"rozwalił",
+        q4:"proszowice",
+        q5:"wnuczek",
+        q6:"42",
+        q7:"pizza",
+        q8:"praga"
+    };
+
+    let score = 0;
+
+    for (let k in a) {
+        if (document.getElementById(k).value.toLowerCase().trim() === a[k]) {
+            score++;
+        }
+    }
+
+    if (score === 8) {
+        quizBox.classList.add("hidden");
+        win1.classList.remove("hidden");
+    } else {
+        alert("Wynik: " + score + "/8");
+    }
+}
+
+/* ZADANIE 2 */
+function checkTask() {
+    if (document.getElementById("answer").value.trim() === "0") {
+        task2.classList.add("hidden");
+        win2.classList.remove("hidden");
+    } else {
+        alert("BŁĘDNA ODPOWIEDŹ");
+    }
+}
+
+/* PROFIL */
+function openProfile() {
+    toggleMenu();
+    hideAll();
+
+    profile.classList.remove("hidden");
+    document.getElementById("user").innerText = username;
+}
+</script>
+
+</body>
+</html>
